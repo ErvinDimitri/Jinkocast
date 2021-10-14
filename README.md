@@ -1,0 +1,2 @@
+# Jinkocast
+Decentralized podcast application

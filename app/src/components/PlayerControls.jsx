@@ -1,24 +1,28 @@
-import React, {useState, useRef} from "react"
+import React, {useState, useRef, useEffect} from "react"
+import {useSelector} from "react-redux";
 import Slider from "@material-ui/core/Slider";
 import Button from "@material-ui/core/Button";
 import {Avatar} from "@material-ui/core"
 import { Text } from "./Text";
 import { Counter } from "./Counter";
 import { useDispatch } from "react-redux";
-import {actions} from "../actions/actions"
+import {setCurrentPlaying} from "../actions/actions"
 import { ButtonControl } from "./ButtonControl";
 import Next from "@material-ui/icons/SkipNext";
 import Previous from "@material-ui/icons/SkipPrevious";
 import RepeatOne from "@material-ui/icons/RepeatOne";
 import Repeat from "@material-ui/icons/Repeat";
+import Play from "@material-ui/icons/PlayArrowRounded"
+import Pause from "@material-ui/icons/PauseCircleFilledRounded"
+import VolumeOn from "@material-ui/icons/VolumeUpRounded"
+import VolumeMuteRounded from "@material-ui/icons/VolumeMuteRounded";
 
-
-export const PlayerControls = ()=>{
+export const PlayerControls = ({podcast})=>{
     const [{id, name, channel, image, musicName, likes}, setPodcast] = useState(podcast);
     const [percentTime, setPercentTime] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const [volume, setVolume] = useState(0);
-    const [duration, setDuration] = useState(0);
+    const [volume, setVolume] = useState(50);
     const [isRepeat, setRepeat] = useState(false);
     const [isPrevious, setPrevious] = useState(false);
     const [isNext, setNext] = useState(false);
@@ -26,9 +30,10 @@ export const PlayerControls = ()=>{
     const [playBTN, setPlayBTN] = useState(false);
     const audioRef = useRef();
     const dispatch = useDispatch();
-    
+    const {playlists} = useSelector( state=>state.musicReducers);
+
     const handlePercentTIme =(event, value)=>{
-        audio.current.currentTime = (duration * percentTime) / 100;
+        audioRef.current.currentTime = (duration * percentTime) / 100;
         setPercentTime(value)
     }
 
@@ -50,20 +55,96 @@ export const PlayerControls = ()=>{
         }
     }
 
+    const handleVolSlider= (event, newValue)=>{
+        setVolume(newValue);
+    }
+
+    const formatTime = (s)=>{
+        const date = new Date(1970, 0, 1);
+        date.setSeconds(s);
+        let ts = date.toTimeString().substr(0,8);
+        if(s>86399){
+            ts = Math.floor( (date - Date.parse("1/1/70"))/3600000 ) / ts.substr(2);
+        }
+        return ts.substring(3);
+    }
+
+    useEffect(()=>{
+        {
+            playBTN?
+                audioRef.current.play()
+                    .then(()=>{})
+                    .catch((e)=>{
+                        audioRef.current.pause();
+                        audioRef.current.currentTime=0;
+                    })
+                :audioRef.current.pause();
+            audioRef.current.volume = volume/100;
+            audioRef.current.muted = isMute;
+            audioRef.current.loop = isRepeat;
+            audioRef.current.onloadeddata = ()=>{
+                if(audioRef.current){
+                    setDuration(audioRef.current.duration);
+                }
+            }
+            setInterval(()=>{
+                if(audioRef.current !== null){
+                    setCurrentTime(audioRef.current.currentTime);
+                }
+            })
+        }
+    })
+
+    useEffect(()=>{
+        setPodcast(podcast)
+    }, [podcast ])
+
+    useEffect(()=>{
+        setPercentTime((currentTime)/(duration/100));
+    }, [currentTime, duration])
+
+    useEffect(()=>{
+        audioRef.current.onended = ()=>{
+            setNext(true);
+        }
+    })
+
+    useEffect(()=>{
+        if(isPrevious){
+            let previusPod=0;
+            if(id>0){
+                previusPod = (id-1)%playlists.length;
+            }else{
+                previusPod = playlists.length-1;
+            }
+             
+            dispatch(setCurrentPlaying(playlists[previusPod]));
+            setPrevious(false);
+        }else if(isNext){
+            let nextPod=(id+1) % playlists.length;
+            dispatch(setCurrentPlaying(playlists[nextPod]));
+            setNext(false);
+        }
+    }, [dispatch, id, playlists, isPrevious, isNext]);
+
+
+
     return(
         <div className={"footer-player"}>
-            <div className={"SlideBar"}>
+            <div className={"playback"}>
                 {
+                    
                     !isNaN(percentTime)&&
                     <Slider 
                         className={"playback-completed"}
                         value={percentTime}
-                        onClick={handlePercentTIme}
+                        onChange={handlePercentTIme}
                     />
+                    
                 }
             </div>
             <Button 
-                className={"metaData"}
+                className={"curr-music-container"}
                 startIcon={ <Avatar src={require("../assets/img/"+image)} alt={name} />}
             > {/* redirects the user to the selected podcast page */}
                 <div className={"basicInfo"}>
@@ -72,8 +153,45 @@ export const PlayerControls = ()=>{
                     < Counter number={likes} unit={"likes"} />
                 </div>
             </Button>
-            <div className={"controls"}>
-                <ButtonControl className={""} onClick={handleClick} />
+            <div className={"controls-center"}>
+                {<audio ref={audioRef} src={ require("../assets/music/"+musicName)} preload={"metadata"} />}
+                <ButtonControl  //Previous BTN
+                    type={"previous"} 
+                    onClick={handleClick} 
+                    icon0={<Previous fontSize={"large"} />} 
+                    icon1={<Previous fontSize={"large"} />} />
+                <ButtonControl   // Play
+                    type={"playBtn"} 
+                    onClick={handleClick} 
+                    icon0={<Pause fontSize={"large"} />} 
+                    icon1={<Play fontSize={"large"} />} />
+                <ButtonControl   // Next
+                    type={"next"} 
+                    onClick={handleClick} 
+                    icon0={<Next fontSize={"large"} />} 
+                    icon1={<Next fontSize={"large"} />} />
+            </div>
+            <div className={"controls-right"}>
+                <div className={"timeDisplay"}>
+                    <p>
+                        {formatTime(currentTime)} 
+                        :
+                        {formatTime(duration)}
+                    </p>
+                </div>
+                <ButtonControl   // Repeat BTN
+                    type={"repeat"} 
+                    onClick={handleClick} 
+                    icon0={<Repeat fontSize={"large"} />} 
+                    icon1={<RepeatOne fontSize={"large"} />} />
+                <div className={"volume-slider"}>
+                    <Slider className={"volSlider"} value={volume} onChange={handleVolSlider} />
+                </div>
+                <ButtonControl   // Volume ON/Mute
+                    type={"playBtn"} 
+                    onClick={handleClick} 
+                    icon0={<VolumeOn fontSize={"large"} />} 
+                    icon1={<VolumeMuteRounded fontSize={"large"} />} />
             </div>
         </div>
     )

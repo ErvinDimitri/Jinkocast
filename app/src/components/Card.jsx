@@ -1,20 +1,21 @@
 import React from "react";
 import {useDispatch} from "react-redux";
 import {Text} from "./Text";
-import {setCurrentPlaying,increaseTimesPlayed} from "../actions/actions";
+import {setCurrentPlaying,increaseTimesPlayed} from "../actions/actions"
+import '../assets/scss/MusicCard.scss';
 
 export const Card = ({audio})=>{
     const {id, name, channel,views,description, image, type} = audio;
 
     const dispatch = useDispatch();
     const handleClick = ()=>{
-        dispatch( setCurrentPlaying(name));
+        dispatch( setCurrentPlaying(audio));
         dispatch( increaseTimesPlayed(id));
     }
 
     return(
-        <div className={"card"} onClick={handleClick}>
-            <div className={"thumbnail"}>
+        <div className={"music-card"} onClick={handleClick}>
+            <div className={"music-card-cover"}>
                 < img src={ require("../assets/img/"+image)} alt={name}/>
             </div>
             <React.Fragment>

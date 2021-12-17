@@ -1,0 +1,14 @@
+.Navbar{
+    display: flex;
+    width: 100%;
+    margin-top: 3px;
+    .MenuBtn{
+        flex:0.1;
+    }
+    .Logo{
+        flex: 0.8;
+    }
+    .NavBTN{
+        flex:0.1;
+    }
+}

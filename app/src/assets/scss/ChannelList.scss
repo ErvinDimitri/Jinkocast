@@ -1,0 +1,22 @@
+.channelList{
+    display: block;
+    flex-direction: row;
+    height: 100%;
+    border-right: 1.5px solid burlywood;
+    .title{
+    }
+    .channelItens{
+        height: 100%;
+        width:100%;
+        
+        display: flex;
+        flex-flow: column;
+        justify-content: flex-start;
+        
+        align-content: flex-start;
+        border-top: 1px solid black;
+        Button{
+            float:left;
+        }
+    }
+}

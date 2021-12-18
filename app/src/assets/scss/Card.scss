@@ -2,7 +2,7 @@
     display: flex;
     height:40%;
     margin: 1%;
-    border: 1px solid blanchedalmond;
+    
     padding: 2px;
 
     .thumbnail{
@@ -26,6 +26,8 @@
             p{
                 text-align: left;
                 font-size: 20pt;
+                font-family: Audiowide;
+                color: #00f2ff;
             }
         }
 
@@ -42,6 +44,9 @@
                     width: 100%;
                     Button{
                         float:left;
+                        p{
+                            color: #00f2ff;
+                        }
                     }
 
                 }
@@ -50,7 +55,7 @@
                     p{
                         padding-right: 10px;
                         padding-left: 10px;
-
+                        color: #00f2ff;
                     }
                 }
             }
@@ -60,11 +65,12 @@
                 p{
                     height: 100%;
                     text-align: left;
+                    color: #00f2ff;
+                    font-style: italic;
                 }
             }
         }
     }
 }
-
 
 

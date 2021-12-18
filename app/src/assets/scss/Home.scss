@@ -3,17 +3,18 @@
 
     .channels{
         flex:0.15;
+        border-right: 1.5px solid #ea00ff;
     }
     .pods{
         flex:0.85;
     }
 }
 
-.footer-player{
+.PlayerControls{
     position: fixed;
     bottom: 0;
     left:0;
     height: 10em;
     width: 100%;
-    background-color: white;
+    background-color: #00e0c2;
 }

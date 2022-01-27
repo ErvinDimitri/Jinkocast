@@ -17,7 +17,6 @@ export const Upload = ({ drizzle, drizzleState })=>{
 
     const uploadHandle = event=>{
         event.preventDefault();
-        const state = drizzle.store.getState();
         let id = drizzle.contracts.RegisterContract.methods.newPodcast.cacheSend(
             "The Pods House",
             "zvre223",
@@ -39,17 +38,10 @@ export const Upload = ({ drizzle, drizzleState })=>{
                 }
             )
         }
-        if(drizzleState.transactionStack[id]){
+        if(drizzleState.transactionStack[id]){ // Verify if the Tx was successed
             const txHash=drizzleState.transactionStack[id];
             console.log(drizzleState.transactions[txHash].status)
         }
-        drizzle.contracts.RegisterContract.methods.allPodcastsFromArtist(
-            drizzleState.accounts[0]
-        ).call()
-            .then((data)=>{
-                console.log(data);
-            })
-        
     };
 
     const changeHandle = event=>{

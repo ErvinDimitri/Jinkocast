@@ -1,4 +1,5 @@
 import React, {useState, useReducer, useRef} from "react";
+import { newContextComponents } from "@drizzle/react-components";
 import "../assets/scss/Upload.scss"
 
 const formReducer = (state, event) =>{
@@ -7,31 +8,58 @@ const formReducer = (state, event) =>{
         [event.name]: event.value
     }
 }
+const { AccountData, ContractData, ContractForm } = newContextComponents;
 
-export const Upload = ()=>{
+export const Upload = ({ drizzle, drizzleState })=>{
 
     const [uploading, setUploadig] = useState(false);
     const [formData, setFormData] = useReducer(formReducer);
 
     const uploadHandle = event=>{
         event.preventDefault();
-        setUploadig(true);
-        setInterval(()=>{
-            setUploadig(false);
-            console.log(formData);
-            alert("Boooomm");
-        }, 3000);
+        const state = drizzle.store.getState();
+        let id = drizzle.contracts.RegisterContract.methods.newPodcast.cacheSend(
+            "The Pods House",
+            "zvre223",
+            {
+                from: drizzleState.accounts[0],
+                gas:5000000
+            }
+        )
+
+        if(id>0){
+            id -=1;
+        }else{
+            let id = drizzle.contracts.RegisterContract.methods.newPodcast.cacheSend(
+                "The Pods House",
+                "zvre223",
+                {
+                    from: drizzleState.accounts[0],
+                    gas:5000000
+                }
+            )
+        }
+        if(drizzleState.transactionStack[id]){
+            const txHash=drizzleState.transactionStack[id];
+            console.log(drizzleState.transactions[txHash].status)
+        }
+        drizzle.contracts.RegisterContract.methods.allPodcastsFromArtist(
+            drizzleState.accounts[0]
+        ).call()
+            .then((data)=>{
+                console.log(data);
+            })
+        
     };
 
     const changeHandle = event=>{
-        let isText = event.target.type === "text" ? event.target.value : event.target.files[0];
-        // let val = ()=>{
-        //     switch(){
-        //         case "textarea": return(event.target.value);
-        //         case "file": return(event.target.files[0]);
-        //         default: return(event.target.value);
-        //     }
-        // }
+        let isText = "";
+        
+            switch(event.target.type){
+                case "file": isText = event.target.files[0]; break;
+                default: isText = event.target.value;
+            }
+
         setFormData({
             name: event.target.name,
             value: isText,

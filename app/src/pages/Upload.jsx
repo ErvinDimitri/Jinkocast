@@ -1,25 +1,43 @@
-import React, {useState, useReducer, useRef} from "react";
+import React, {useState, useReducer, useRef, useEffect} from "react";
 import { newContextComponents } from "@drizzle/react-components";
 import "../assets/scss/Upload.scss"
+import {create} from 'ipfs-http-client'
 
-const formReducer = (state, event) =>{
-    return{
-        ...state,
-        [event.name]: event.value
-    }
-}
 const { AccountData, ContractData, ContractForm } = newContextComponents;
-
 export const Upload = ({ drizzle, drizzleState })=>{
 
     const [uploading, setUploadig] = useState(false);
-    const [formData, setFormData] = useReducer(formReducer);
+    const [formData, setFormData] = useState("");
+    const [thumbnail, setThumbnail] = useState("");
+    const [thumbnail_0, setThumbnail_0] = useState("");
+    const [podIPFS, setPodIPFS] = useState("");
+    const [podIPFS_0, setPodIPFS_0] = useState("");
+    const [cid, setCID] = useState("");
 
+    async function uploadIPFS (data){
+        const upload = await client.add(data);
+        return upload.path;
+    }
+
+    const IPFS_hash = ()=>{
+        async function exec(){
+            const currentDate = new Date();
+            let data={
+                title: event.target.title.value,
+                type: event.target.typePodcast.value,
+                description: event.target.description.value,
+                date: currentDate.getTime(),
+                imgCID:await uploadIPFS( thumbnail_0),
+                podCID: await uploadIPFS( podIPFS_0)
+            }
+            setCID(await uploadIPFS(JSON.stringify(data)));
+        }
+    } 
     const uploadHandle = event=>{
         event.preventDefault();
         let id = drizzle.contracts.RegisterContract.methods.newPodcast.cacheSend(
-            "The Pods House",
-            "zvre223",
+            event.target.title.value,
+            cid,
             {
                 from: drizzleState.accounts[0],
                 gas:5000000

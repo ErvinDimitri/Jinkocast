@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {Card} from "./Card";
-import { useSelector } from "react-redux";
+import "../assets/scss/AudioCardC.scss"
 
 export const AudioCardC = ()=>{
-    const {playlists} = useSelector( state=> state.musicReducers);
+    const [playlists, setPlaylists] = useState([]);
+
+    drizzle.contracts.RegisterContract.methods.allPodcastsFromArtist(
+        drizzleState.accounts[0]
+    ).call()
+        .then((data)=>{
+            setPlaylists([data]);
+        })
+
+
 
     return(
-        <div className={"PodcastC"}>
-            {
-                playlists.map((audio)=>(
-                    <Card key={audio.id} audio={audio} />
-                ))
-            }
-        </div>
+        <>
+            <div className={"AudioCardC"} >
+                {
+                    playlists.map((audio)=>(
+                        <Card key={audio} audio={audio} />
+                    ))
+                }
+            </div>
+        </>
     )
     
 }

@@ -8,15 +8,21 @@ import {getContent} from "../assets/utils"
 
 
 export const Card = ({audio})=>{
-    const {id, channel,views,description, image, likes, type} = audio;
+    const {id} = audio;
     const [audio_data, setAudio_data] = useState("");
-    const [name, setName] = useState("");
+    const [title, setTitle] = useState("");
     const [date, setDate] = useState("");
-    
+    const [type, setType] = useState("");
+    const [description, setDescription] = useState("");
+    const [image, setImage] = useState("");
+    const [pod_audio, setPod_audio] = useState("");
+    const channel ="Podcast A59";
+    const [like, setLike]=useState(Math.round(Math.random(8000)*100));
+    const [views, setViews]=useState(Math.round(Math.random(10000)*100));
+
     const [load, setLoad] = useState(true);
     if(load){
-        setAudio_data(getContent());
-        
+        setAudio_data(getContent(audio));
         setLoad(false)
     }
     useEffect(()=>{
@@ -24,8 +30,13 @@ export const Card = ({audio})=>{
             console.log( audio_data)
             Promise.all([audio_data]).then((info)=>
                 {console.log(info[0].date)
-                setName( info[0].name)
-                setDate(info[0].date)}
+                setTitle( info[0].title)
+                setDate(info[0].date)
+                setType(info[0].type)
+                setImage(info[0].imgCID)
+                setPod_audio(info[0].podCID)
+                setDescription(info[0].description)
+                }
             )
         }
         f()
@@ -51,14 +62,14 @@ export const Card = ({audio})=>{
         console.log(audio_data)
     }
     return(
-        <div className={"card"} onClick={handleClick} onMouseOver={handleHover} style={neon} onMouseOut={handleOut}>
+        <div className={"card"} onClick={handleClick} onMouseOver={handleHover} style={neon} onMouseOut={handleOut}>      
             <div className={"thumbnail"}>
-                {/* < img src={ `https://ipfs.infura.io/ipfs/QmdMgwDTZZTEHSfou4Zfc7M15P1cB49UoXHojy7uMHUREq`} alt={name}/> */}
+                {/* < img src={ `https://ipfs.infura.io/ipfs/${image}`} alt={title}/> */}
             </div>
-
+            
             <div className={"Info"}>
                 <div className={"name"}>
-                    <p> {name} </p>
+                    <p> {title} </p>
                 </div>
                 <div className={"otherInfo"}>
                     <div className={"part1"}>
@@ -66,18 +77,18 @@ export const Card = ({audio})=>{
                             <ChannelItem name={channel} from={"card"}/>
                         </div>
                         <div className={"views"}>
-                            {/* <p> {type} </p> */}
+                            <p> {type} </p>
                             <Text text={views+" views"} />
-                            <Text text={likes+" likes"} />
+                            <Text text={like+" likes"} />
 
                         </div>
                     </div>
                     <div className={"part2"}>
-                        <p>{description}{date} </p>
+                        <p>{description}</p>
                     </div>
                 </div>
-
-            </div> 
+                
+            </div>
         </div>
     )
 }

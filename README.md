@@ -5,3 +5,6 @@ Creators will now be able to upload their podcasts to a decentralized applicatio
 - Don't need to worry, if the password is secure enough.
 
 *Further updates will follow soon...*
+
+Before running the project, there is a bug on node_modules foder inside app director
+How to fix: https://github.com/ChainSafe/web3.js/pull/3948#issuecomment-821779691

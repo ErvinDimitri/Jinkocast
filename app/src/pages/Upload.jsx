@@ -4,10 +4,12 @@ import "../assets/scss/Upload.scss"
 import {create} from 'ipfs-http-client'
 
 const { AccountData, ContractData, ContractForm } = newContextComponents;
+const client = create('https://ipfs.infura.io:5001/api/v0');
+
 export const Upload = ({ drizzle, drizzleState })=>{
 
     const [uploading, setUploadig] = useState(false);
-    const [formData, setFormData] = useState("");
+    const [formData, setFormData] = useState("");]
     const [thumbnail, setThumbnail] = useState("");
     const [thumbnail_0, setThumbnail_0] = useState("");
     const [podIPFS, setPodIPFS] = useState("");
@@ -15,11 +17,29 @@ export const Upload = ({ drizzle, drizzleState })=>{
     const [cid, setCID] = useState("");
 
     async function uploadIPFS (data){
+        
         const upload = await client.add(data);
+        const url = `https://ipfs.infura.io/ipfs/${upload.path}`
         return upload.path;
     }
 
-    const IPFS_hash = ()=>{
+    async function sendToSmartCOntract(title, hash){
+        let id = await drizzle.contracts.RegisterContract.methods.newPodcast.cacheSend(
+            title,
+            hash,
+            {
+                from: drizzleState.accounts[0],
+                gas:5000000
+            }
+        )
+        if(drizzleState.transactionStack[id]){  // Verify if the Tx was successed
+            const txHash=drizzleState.transactionStack[id];
+            console.log(drizzleState.transactions[txHash].status)
+        }
+    }
+
+    const uploadHandle = event=>{
+        event.preventDefault();
         async function exec(){
             const currentDate = new Date();
             let data={
@@ -27,39 +47,15 @@ export const Upload = ({ drizzle, drizzleState })=>{
                 type: event.target.typePodcast.value,
                 description: event.target.description.value,
                 date: currentDate.getTime(),
-                imgCID:await uploadIPFS( thumbnail_0),
-                podCID: await uploadIPFS( podIPFS_0)
+                imgCID:await uploadIPFS( thumbnail_0), 
+                podCID: await uploadIPFS( podIPFS_0)  
             }
-            setCID(await uploadIPFS(JSON.stringify(data)));
+            let cidCont = await uploadIPFS(JSON.stringify(data)); 
+            console.log(cidCont)
+            sendToSmartCOntract(data.title, cidCont)
         }
-    } 
-    const uploadHandle = event=>{
-        event.preventDefault();
-        let id = drizzle.contracts.RegisterContract.methods.newPodcast.cacheSend(
-            event.target.title.value,
-            cid,
-            {
-                from: drizzleState.accounts[0],
-                gas:5000000
-            }
-        )
-
-        if(id>0){
-            id -=1;
-        }else{
-            let id = drizzle.contracts.RegisterContract.methods.newPodcast.cacheSend(
-                "The Pods House",
-                "zvre223",
-                {
-                    from: drizzleState.accounts[0],
-                    gas:5000000
-                }
-            )
-        }
-        if(drizzleState.transactionStack[id]){ // Verify if the Tx was successed
-            const txHash=drizzleState.transactionStack[id];
-            console.log(drizzleState.transactions[txHash].status)
-        }
+        
+        exec()
     };
 
     const changeHandle = event=>{
@@ -76,8 +72,17 @@ export const Upload = ({ drizzle, drizzleState })=>{
         })
     }
 
+    const onChangeImg=(e)=>{
+        const file = e.target.files[0];
+        setPodIPFS(file);
+    }
 
-
+    const uploadThumbnail = (e)=>{
+        setThumbnail_0(e.target.files[0])
+    }
+    const uploadPod = (e)=>{
+        setPodIPFS_0( e.target.files[0]);
+    }
     return(
         <div className={"UploadDIV"}>
             <div className={"UploadTitleDIV"}>
@@ -108,17 +113,18 @@ export const Upload = ({ drizzle, drizzleState })=>{
                     </label>
                     <label>
                         <p>Upload Audio</p>
-                        <input type="file" name={"audio"} />
+                        <input type="file" name={"audio"} onChange={uploadPod}/>
                     </label>
                     <label>
                         <p>Upload Thumbnail</p>
-                        <input type={"file"} name={"thumbnail"} />
+                        <input type={"file"} name={"thumbnail"} onChange={uploadThumbnail}/>
                     </label>
 
                     <input type={"submit"} value={"Upload"} />
                     {
                         uploading&& <h1> ...Uploading the data... It may take a while </h1>
                     }
+                    {thumbnail}
                 </form>
             </div>
         </div>

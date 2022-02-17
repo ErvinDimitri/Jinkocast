@@ -78,7 +78,7 @@ export const Card = ({audio})=>{
                 :
                 <>
                     <div className={"thumbnail"}>
-                        {/* < img src={ `https://ipfs.infura.io/ipfs/${image}`} alt={title}/> */}
+                        < img src={ `https://ipfs.infura.io/ipfs/${image}`} alt={title}/> 
                     </div>
                     
                     <div className={"Info"}>

@@ -1,0 +1,70 @@
+.Account{
+    position: relative;
+    .back{
+        display:flex;
+        flex-direction: column;
+        z-index: 0;
+        
+        .bgImgDIV{
+            img{
+                width: 100%;
+                height: auto;
+            }
+        }
+        .UploadedPods{
+            display: flex;
+            flex-direction: column;
+            p{
+                color: #00f2ff;
+            }
+            .part1{
+                display: flex;
+                margin-top: 20px;
+                .NewPod{
+                    flex: 0.5;
+                    Button{
+                        float: right;
+                        color: #00f2ff;
+                        margin-top: 120px;
+                    }
+                }
+                .title{
+                    flex: 0.5;
+                    border-bottom: 1px solid #ea00ff;;
+                    padding-left: 15px;
+                    p{
+                        font-size: 65pt;
+                        margin-bottom: 0px;
+                        text-align: left;
+                    }
+                }
+            }
+            .PodsDIV{
+                
+            }
+        }
+    }
+
+    .front{
+        z-index: 2;
+        position: absolute;
+        width: 100%;
+        margin-top: 90px;
+        .Profile{
+            margin-top: 15px;
+            margin-left: 10px;
+            background-color: rgb(15, 3, 51);
+            
+            box-shadow: 0.1px 1px 100px 0.1px #00f2ff;
+            border: 1px solid #00f2ff;
+            width: 200px;
+            p{
+                color: #00f2ff;
+            }
+            img{
+                width: 100px;
+                height: auto;
+            }
+        }
+    }
+}

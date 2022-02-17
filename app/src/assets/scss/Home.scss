@@ -1,0 +1,24 @@
+.middleDivs{
+    display: flex;
+
+    .channels{
+        flex:0.15;
+        border-right: 1.5px solid #ea00ff;
+    }
+    .sectionDIV{
+        flex:0.85;
+    }
+}
+
+.PlayerControls{
+    position: fixed;
+    bottom: 0;
+    left:0;
+    height: 10em;
+    width: 100%;
+    background-color: #00e0c2;   //00b3e0
+}
+
+
+// rosa ea00ff  91.8  0 100
+// azul 00f2ff   0  94.9  100

@@ -1,0 +1,92 @@
+.card{
+    display: flex;
+    height:40%;
+    margin: 1%;
+    
+    padding: 2px;
+
+    .thumbnail{
+        flex: 0.2;
+
+        img{
+            height: 250px;
+            width: auto;
+            
+        }
+    }
+
+    .Info{
+        flex: 0.8;
+        display: block;
+        width: 100%;
+        margin-left: 10px;
+        .name{
+            width: 100%;
+            height: 85px;
+            p{
+                text-align: left;
+                font-size: 20pt;
+                font-family: Audiowide;
+                color: #00f2ff;
+            }
+        }
+
+        .otherInfo{
+            display: flex;
+        
+            .part1{
+                flex:0.3;
+                
+                .channel{
+                    display: flex;
+                    flex-flow: column;
+                    justify-content: flex-start;
+                    width: 100%;
+                    Button{
+                        float:left;
+                        p{
+                            color: #00f2ff;
+                        }
+                    }
+
+                }
+                .views{
+                    display: flex;
+                    p{
+                        padding-right: 10px;
+                        padding-left: 10px;
+                        color: #00f2ff;
+                    }
+                }
+            }
+        
+            .part2{
+                flex:0.7;
+                p{
+                    height: 100%;
+                    text-align: left;
+                    color: #00f2ff;
+                    font-style: italic;
+                }
+            }
+        }
+    }
+
+    .loader {
+        border: 16px solid #f3f3f315;
+        border-top: 16px solid #00f2ff;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        margin-left: 45%;
+        animation: spin 2s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+}
+
+
+

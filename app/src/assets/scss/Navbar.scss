@@ -1,0 +1,27 @@
+.Navbar{
+    display: flex;
+    width: 100%;
+    margin-top: 3px;
+    border-bottom: 1px solid #ea00ff;
+    .menuBtn1{
+        flex:0.1;
+        .MenuBtn{
+            margin-top: 25px;
+            float: left;
+
+        }
+    }
+    .Logo{
+        flex: 0.8;
+        img{
+            width: 250px;
+        }
+    }
+    .NavBTN{
+        flex:0.1;
+        margin-top: 25px;
+        svg{
+            margin-left: 15px;
+        }
+    }
+}

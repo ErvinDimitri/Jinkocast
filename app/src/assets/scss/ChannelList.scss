@@ -1,0 +1,27 @@
+.channelList{
+    display: block;
+    flex-direction: row;
+    height: 100%;
+    .title{
+        h1{
+            color: #ea00ff;
+        }
+    }
+    .channelItens{
+        height: 100%;
+        width:100%;
+        
+        display: flex;
+        flex-flow: column;
+        justify-content: flex-start;
+        
+        align-content: flex-start;
+        border-top: 1px solid #00f2ff;
+        Button{
+            float:left;
+            p{
+                color:#00f2ff;
+            }
+        }
+    }
+}

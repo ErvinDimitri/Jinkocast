@@ -1,0 +1,79 @@
+.PlayerControls{
+    display: flex;
+    flex-flow: column;
+
+    .part2{
+        display: flex;
+
+        .infoDiv{
+            flex: 0.2;
+            button{
+                float: left;
+                margin-left: 10px;
+                .namePodcast{
+                        font-size: 14pt;
+                }
+            }
+        }
+
+        .controls-center{
+            flex: 0.6;
+            display: flex;
+
+            .likeBtn{
+                flex: 0.2;
+                display: flex;
+                svg{
+                    display: block;
+                    margin: auto;
+                    margin-right: 0;
+                }
+                p{
+                    margin-top: 57px;
+                }
+            }
+            .Btns{
+                flex:0.8;
+                padding-right: 200px;
+                display: flex;
+                svg{
+                    margin-bottom: 10px;
+                }
+                .previousBTN{
+                    flex: 0.333;
+                    
+                }
+                .playBtnBTN{
+                    flex: 0.333;
+                }
+                .nextBTN{
+                    flex: 0.333;
+                    
+                }
+                
+            }
+        }
+
+        .controls-right{
+            flex:0.2;
+            display: flex;
+            margin-top: 45px;
+            .volSlider{
+                flex: 0.5;
+                // transform: rotate(-90deg);
+                // -webkit-transform: rotate(-90deg);
+                // display: inline-block;
+            }
+            .RepeatDiv{
+                flex:0.5;
+                
+            }
+        }
+
+        .timeDisplay{
+            position: absolute;
+            right: 15px;
+            top: 25px;
+        }
+    }
+}

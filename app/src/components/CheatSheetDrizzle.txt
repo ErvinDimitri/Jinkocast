@@ -1,0 +1,153 @@
+const uploadHandle = event=>{
+        event.preventDefault();
+        // RegisterContract
+        const state = drizzle.store.getState();
+        let id = drizzle.contracts.RegisterContract.methods.newPodcast.cacheSend(
+            "The Pods House",
+            "zvre223",
+            {
+                from: drizzleState.accounts[0],
+                gas:5000000
+            }
+        )
+
+        console.log("zzzzzzzzzzz",id);
+        if(id>0){
+            id -=1;
+        }
+        if(drizzleState.transactionStack[id]){
+            const txHash=drizzleState.transactionStack[id];
+            console.log(drizzleState.transactions[txHash].status)
+        }
+        console.log(".................",drizzle)
+        console.log("\n\n\n......",drizzleState)
+
+        
+        drizzle.contracts.RegisterContract.methods.allPodcastsFromArtist(
+            drizzleState.accounts[0]
+        ).call()
+            .then((data)=>{
+        console.log("passsssss1")
+
+                console.log("wwwwwwwww",data);
+            })
+
+
+
+
+        // let id = drizzle.contracts.RegisterContract.methods.setCount.cacheSend(
+        //     {from: drizzleState.accounts[0]
+        //     }
+        // )
+
+        
+        // console.log("zzzzzzzzzzz",id);
+        // if(id>0){
+        //     id -=1;
+        // }
+        // if(drizzleState.transactionStack[id]){
+        //     const txHash=state.transactionStack[id];
+        //     console.log(state.transactions[txHash].status)
+        // }
+        // console.log(".................",drizzle)
+        // console.log("\n\n\n......",drizzleState)
+
+
+        // drizzle.contracts.RegisterContract.methods.count(
+        //     drizzleState.accounts[0]
+        // ).call()
+        //     .then((data)=>{
+
+        // console.log("wwwwwwwww",data);
+        //     })
+        // console.log("dsdsds",data.value);
+
+        
+    };
+
+
+    --------------------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------------------
+    ----------------------------------------Upload File ----------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------------------------------
+
+let data={
+                title: event.target.title.value,
+                type: event.target.typePodcast.value,
+                description: event.target.description.value,
+                date: currentDate.getTime(),
+                imgCID:await uploadIPFS( thumbnail_0),  //QmdMgwDTZZTEHSfou4Zfc7M15P1cB49UoXHojy7uMHUREq
+                podCID: await uploadIPFS( podIPFS_0)    //Qmcdze7R5mt6kthazPX4JmnPmMNmds2YzbNef94iN1fzm1
+            }
+            let cidCont = await uploadIPFS(JSON.stringify(data));  //QmSLVWsPoRU2RBe3X2f1oB3vRuqzo16Dy63iVFyvL8YN5q
+                                                            //QmUTaTCiUMp3NMTp3F3djHg2AWjXkCdbrTgWFEzfKyhS3c
+
+
+
+// let data={
+        //     name: "sfumerf",
+        //     date: 124231,
+        //     imgCID:thumbnail,
+        //     podCID: podIPFS
+        // }
+        
+        
+        // uploadThumbnail()
+        //     .then((imgHash)=>{
+        //         let data={
+        //             name: "sfumerf",
+        //             date: 124231,
+        //             imgCID:imgHash,
+        //             podCID: podIPFS
+        //         }
+        //     const ipfsHash = uploadIPFS(JSON.stringify(data));
+
+        //     })
+        // let id = drizzle.contracts.RegisterContract.methods.newPodcast.cacheSend(
+        //     "The Pods House",
+        //     "zvre223",
+        //     {
+        //         from: drizzleState.accounts[0],
+        //         gas:5000000
+        //     }
+        // )
+
+        // if(id>0){
+        //     id -=1;
+        // }else{
+        //     let id = drizzle.contracts.RegisterContract.methods.newPodcast.cacheSend(
+        //         "The Pods House",
+        //         "zvre223",
+        //         {
+        //             from: drizzleState.accounts[0],
+        //             gas:5000000
+        //         }
+        //     )
+        // }
+        // if(drizzleState.transactionStack[id]){  // Verify if the Tx was successed
+        //     const txHash=drizzleState.transactionStack[id];
+        //     console.log(drizzleState.transactions[txHash].status)
+        // }
+        // console.log(".................",drizzle)
+        // console.log("\n\n\n......",drizzleState)
+        
+
+
+
+    // const onChangeImg=(e)=>{   // ???
+    //     const file = e.target.files[0];
+    //     setPodIPFS(file);
+    // }
+
+    
+
+
+Brief intro
+
+In this podcast we are going to talk with some artists
+
+
+The future of metaverse
+
+On this podcast, we discuss about the progress of metaverse util now

@@ -1,7 +1,5 @@
-import musicDB from "../db/music";
-
 export const initialState = {
-    playlists: musicDB,
+    playlists: null,
     playing:null,
     bannerOpen: false,
     search:null,
